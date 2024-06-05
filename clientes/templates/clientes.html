@@ -6,20 +6,21 @@
 {% endblock %}
 
 {% block 'dashboard' %}
+    <div onCh
     <div class="container">
         <div class="row">
 
-            <div class="col-md card-dashboard">
+            <div onclick="exibir_form('1')" class="col-md card-dashboard">
                 <p class="text-card">Adicionar clientes</p>
             </div>
 
-            <div class="col-md card-dashboard">
+            <div onclick="exibir_form('2')" class="col-md card-dashboard">
                 <p class="text-card">Atualizar cliente</p>
             </div>
 
         </div>
 
-        <div class="adicionar-cliente">
+        <div id="add_cliente">
             <form action="{% url 'clientes' %}" method="POST">{% csrf_token %}
                     <div class="col-md">
                         <p>Nome:</p>
@@ -63,9 +64,17 @@
                 <input type="submit" value="Cadastrar" class="btn-principal">
             </form>
             {% if erro %}
-            {{ erro }}
+            <div id="erro-message">
+                {{ erro }}
+            </div>
             {% endif %}
         </div>
+
+        <div id="att_cliente">
+            Teste
+        </div>
+
+
     </div>
     <script src="{% static 'clientes/js/clientes.js' %}"></script>
 

@@ -71,7 +71,15 @@
         </div>
 
         <div id="att_cliente">
-            Teste
+            <p></p>
+            <select onchange="dados_cliente()" id="cliente-select" class="form-control">
+                <option>Selecione um cliente</option>
+                {% for cliente in clientes %}
+                    <option value="{{ cliente.id }}">{{ cliente.nome }}</option>
+                {% endfor %}
+            </select>
+            <br>
+            <input type="submit" value="Atualizar" class="btn-principal">
         </div>
 
 

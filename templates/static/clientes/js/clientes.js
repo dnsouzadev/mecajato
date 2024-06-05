@@ -13,24 +13,50 @@ function exibir_form(tipo) {
     const att_cliente = document.getElementById("att_cliente");
 
     if(tipo == "1"){
-        console.log(tipo, add_cliente, att_cliente);
         att_cliente.style.display = "none";
         add_cliente.style.display = "block";
     } else if(tipo == "2"){
-        console.log(tipo, add_cliente, att_cliente);
         add_cliente.style.display = "none";
         att_cliente.style.display = "block";
     }
 }
 
 document.addEventListener("DOMContentLoaded", function() {
-    // Seleciona o elemento de erro
-    var erroMessage = document.getElementById("erro-message");
+    const erroMessage = document.getElementById("erro-message");
 
-    // Se o elemento existir, define um timer para ocultá-lo após 5 segundos
     if (erroMessage) {
         setTimeout(function() {
             erroMessage.style.display = 'none';
         }, 2000);
     }
 });
+
+function dados_cliente() {
+    const cliente = document.getElementById("cliente-select");
+    const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+    const url = '/clientes/atualiza_cliente/';
+    const id_cliente = cliente.value;
+
+    const data = new FormData();
+    data.append('id_cliente', id_cliente);
+
+    fetch(url, {
+        method: 'POST',
+        headers: {
+            'X-CSRFToken': csrftoken
+    },
+    body: data
+    })
+    .then(response => response.json())
+    .then(data => {
+        const status = data.status;
+        const nome = data.nome;
+        const sobrenome = data.sobrenome;
+        const email = data.email;
+
+
+        nome.value = nome;
+        sobrenome.value = sobrenome;
+        email.value = email;
+    });
+}

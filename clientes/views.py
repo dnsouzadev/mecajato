@@ -1,4 +1,4 @@
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render
 import re
 from clientes.models import Carro, Cliente
@@ -7,7 +7,8 @@ from clientes.models import Carro, Cliente
 # Create your views here.
 def clientes(request):
     if request.method == 'GET':
-        return render(request, 'clientes.html')
+        clientes_list = Cliente.objects.all()
+        return render(request, 'clientes.html', {'clientes': clientes_list})
     elif request.method == 'POST':
         nome = request.POST.get('nome')
         sobrenome = request.POST.get('sobrenome')
@@ -44,3 +45,11 @@ def clientes(request):
 
         return HttpResponse('Cliente cadastrado com sucesso!')
 
+
+def att_cliente(request):
+    if request.method == 'POST':
+        id_cliente = request.POST.get('id_cliente')
+        consultar = Cliente.objects.filter(id=id_cliente)
+        if not consultar.exists():
+            return JsonResponse({'status': False, 'mensagem': 'Cliente não encontrado!'})
+        return JsonResponse({'status': False, 'nome': consultar[0].nome, 'sobrenome': consultar[0].sobrenome, 'email': consultar[0].email, 'cpf': consultar[0].cpf})

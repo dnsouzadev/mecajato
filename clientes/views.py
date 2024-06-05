@@ -1,5 +1,7 @@
 from django.http import HttpResponse
 from django.shortcuts import render
+import re
+from clientes.models import Carro, Cliente
 
 
 # Create your views here.
@@ -15,7 +17,30 @@ def clientes(request):
         placas = request.POST.getlist('placa')
         anos = request.POST.getlist('ano')
 
-        print(nome, sobrenome, email, cpf, carros, placas, anos)
+        cliente = Cliente.objects.filter(cpf=cpf)
+        if cliente.exists():
+            return render(request, 'clientes.html', {'nome': nome, 'sobrenome': sobrenome, 'email': email, 'cpf': cpf, 'carro': carros, 'placa': placas, 'ano': anos, 'carros': zip(carros, placas, anos), 'erro': 'CPF já cadastrado!'})
+
+        if not re.fullmatch(re.compile(r'([A-Za-z0-9]+[.-_])*[A-Za-z0-9]+@[A-Za-z0-9-]+(\.[A-Z|a-z]{2,})+'), email):
+            return render(request, 'clientes.html', {'nome': nome, 'sobrenome': sobrenome, 'email': email, 'cpf': cpf, 'carro': carros, 'placa': placas, 'ano': anos, 'carros': zip(carros, placas, anos), 'erro': 'Email inválido!'})
+
+        cliente = Cliente(
+            nome=nome,
+            sobrenome=sobrenome,
+            email=email,
+            cpf=cpf
+        )
+
+        cliente.save()
+
+        for carro, placa, ano in zip(carros, placas, anos):
+            car = Carro(
+                carro=carro,
+                placa=placa,
+                ano=ano,
+                cliente=cliente
+            )
+            car.save()
 
         return HttpResponse('Cliente cadastrado com sucesso!')
 

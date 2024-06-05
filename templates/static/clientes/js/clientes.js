@@ -49,14 +49,16 @@ function dados_cliente() {
     })
     .then(response => response.json())
     .then(data => {
-        const status = data.status;
-        const nome = data.nome;
-        const sobrenome = data.sobrenome;
-        const email = data.email;
+        const nome = document.getElementById("nome");
+        const sobrenome = document.getElementById("sobrenome");
+        const email = document.getElementById("email");
+        const cpf = document.getElementById("cpf");
 
+        form_att_cliente.style.display = "block";
 
-        nome.value = nome;
-        sobrenome.value = sobrenome;
-        email.value = email;
+        nome.value = data.nome;
+        sobrenome.value = data.sobrenome;
+        email.value = data.email;
+        cpf.value = data.cpf;
     });
 }

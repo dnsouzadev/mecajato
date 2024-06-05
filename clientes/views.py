@@ -52,4 +52,4 @@ def att_cliente(request):
         consultar = Cliente.objects.filter(id=id_cliente)
         if not consultar.exists():
             return JsonResponse({'status': False, 'mensagem': 'Cliente não encontrado!'})
-        return JsonResponse({'status': False, 'nome': consultar[0].nome, 'sobrenome': consultar[0].sobrenome, 'email': consultar[0].email, 'cpf': consultar[0].cpf})
+        return JsonResponse({'status': True, 'nome': consultar[0].nome, 'sobrenome': consultar[0].sobrenome, 'email': consultar[0].email, 'cpf': consultar[0].cpf})

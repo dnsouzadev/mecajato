@@ -1,5 +1,6 @@
 from django.http import JsonResponse
 from django.shortcuts import render
+from .forms import FormServico
 
 # Create your views here.
 def servicos(request):
@@ -7,4 +8,5 @@ def servicos(request):
 
 
 def novo_servico(request):
-    return render(request, "novo_servico.html")
+    form = FormServico()
+    return render(request, "novo_servico.html", {"form": form})

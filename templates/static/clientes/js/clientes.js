@@ -113,15 +113,25 @@ function update_cliente(){
         return result.json()
     }).then(function(data){
 
+        let msg_error = document.getElementById('msg_error')
+
         if(data['status'] == '200'){
             nome = data['nome']
             sobrenome = data['sobrenome']
             email = data['email']
             cpf = data['cpf']
             console.log('Dados alterado com sucesso')
+            mensagem_completa = '<div class="alert alert-success" role="alert">Dados alterados com sucesso!'
         }else{
             console.log('Ocorreu algum erro')
+            mensagem_completa = '<div class="alert alert-danger" role="alert">Ocorreu um erro ao atualizar os dados!'
         }
+
+        msg_error.innerHTML = mensagem_completa
+
+        setTimeout(function(){
+            msg_error.innerHTML = ''
+        }, 3000)
 
     })
 

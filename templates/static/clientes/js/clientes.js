@@ -42,7 +42,6 @@ function dados_cliente(){
         return result.json()
     }).then(function(data){
         document.getElementById('form_att_cliente').style.display = 'block'
-        console.log(data['cliente'])
 
         id = document.getElementById('id')
         id.value = data['cliente_id']
@@ -60,6 +59,8 @@ function dados_cliente(){
         email.value = data['cliente']['email']
 
         div_carros = document.getElementById('carros')
+
+        div_carros.innerHTML = '';
 
         for(i=0; i<data['carros'].length; i++){
             div_carros.innerHTML += "\<form action='/clientes/update_carro/" + data['carros'][i]['id'] +"' method='POST'>\
@@ -120,10 +121,8 @@ function update_cliente(){
             sobrenome = data['sobrenome']
             email = data['email']
             cpf = data['cpf']
-            console.log('Dados alterado com sucesso')
             mensagem_completa = '<div class="alert alert-success" role="alert">Dados alterados com sucesso!'
         }else{
-            console.log('Ocorreu algum erro')
             mensagem_completa = '<div class="alert alert-danger" role="alert">Ocorreu um erro ao atualizar os dados!'
         }
 

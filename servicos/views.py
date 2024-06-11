@@ -1,8 +1,10 @@
 from io import BytesIO
-from django.http import FileResponse, HttpResponseRedirect, JsonResponse
+import re
+from django.http import FileResponse, HttpResponse, HttpResponseRedirect, JsonResponse
 from django.shortcuts import get_object_or_404, render
+from django.urls import reverse
 from fpdf import FPDF
-from servicos.models import Servico
+from servicos.models import Servico, ServicoAdicional
 from .forms import FormServico
 
 # Create your views here.
@@ -28,16 +30,8 @@ def listar_servico(request):
 
 
 def servico(request, identificador):
-    if request.method == 'GET':
-        servico = get_object_or_404(Servico, identificador=identificador)
-        return render(request, "servico.html", {"servico": servico})
-    elif request.method == 'POST':
-        servico = Servico.objects.get(identificador=identificador)
-        servico.finalizado = True
-        servico.save()
-        return HttpResponseRedirect("servico/listar_servico/")
-    else:
-        return render(request, "servico.html", {"servico": Servico.objects.get(identificador=identificador)})
+    servico = get_object_or_404(Servico, identificador=identificador)
+    return render(request, 'servico.html', {'servico': servico, 'servicos_adicionais': ServicoAdicional.objects.all()})
 
 
 def gerar_os(request, identificador):
@@ -71,3 +65,30 @@ def gerar_os(request, identificador):
     pdf_bytes = BytesIO(pdf_content)
 
     return FileResponse(pdf_bytes, as_attachment=True, filename=f"os-{servico.protocolo}.pdf")
+
+def servico_adicional(request):
+    identificador_servico = request.POST.get('identificador_servico')
+    titulo = request.POST.get('titulo')
+    descricao = request.POST.get('descricao')
+    preco = request.POST.get('preco')
+
+    servico_adicional = ServicoAdicional(titulo=titulo,
+                                        descricao=descricao,
+                                        preco=preco)
+
+    servico_adicional.save()
+
+    servico = Servico.objects.get(identificador=identificador_servico)
+    servico.servicos_adicionais.add(servico_adicional)
+    servico.save()
+
+    return HttpResponseRedirect(reverse('servico', args=[identificador_servico]))
+
+
+def apagar_servico_adicional(request, id):
+    try:
+        s = ServicoAdicional.objects.get(id=id)
+        s.delete()
+        return JsonResponse({'status': 'success', 'message': 'Serviço adicional apagado com sucesso.'})
+    except ServicoAdicional.DoesNotExist:
+        return JsonResponse({'status': 'error', 'message': 'Serviço adicional não encontrado.'}, status=404)

@@ -18,6 +18,34 @@
         <br>
         <br>
         <h3>{{servico.titulo}}<h3>
+        <h5>Cliente: {{servico.cliente}}</h5>
+        <h5>Preço total: R$ {{servico.preco_total}}</h5>
+        <h5>Status: {% if servico.finalizado %}<span class="badge badge-success">Finalizado</span>{% else %}<span class="badge badge-warning">Em andamento</span>{% endif %}</h5>
+        <h5>Data de Inicio: {{ servico.data_inicio }}</h5>
+        <h5>Data de Entrega: {{ servico.data_entrega }}</h5>
+        <br>
+        <h3>Serviços adicionais</h3>
+        <table class="table table-dark">
+            <thead>
+              <tr>
+                <th scope="col">Titulo</th>
+                <th scope="col">Descrição</th>
+                <th scope="col">Preço</th>
+              </tr>
+            </thead>
+            <tbody>
+                {% for servico_adicional in servicos_adicionais %}
+                    <input type="hidden" name="id_servico_adicional" id="id_servico_adicional" value="{{ servico_adicional.id }}">
+                    <tr>
+                        <td>{{ servico_adicional.titulo }}</td>
+                        <td>{{ servico_adicional.descricao }}</td>
+                        <td>R$ {{ servico_adicional.preco }}</td>
+                        <td><button onclick="apagarServicoAdicional({{ servico_adicional.id }})">Apagar Serviço</button></td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+          </table>
+
 
     </div>
 
@@ -37,7 +65,7 @@
                 </button>
             </div>
             <div class="modal-body">
-                <form action="" method="POST">{% csrf_token %}
+                <form action="{% url 'servico_adicional' %}" method="POST">{% csrf_token %}
                     <input type="hidden" name="identificador_servico" value={{servico.identificador}}>
 
                     <label>Digite o título:</label>
@@ -56,5 +84,6 @@
             </div>
         </div>
     </div>
+    <script src="{% static 'servicos/js/servico.js' %}"></script>
 
 {% endblock %}

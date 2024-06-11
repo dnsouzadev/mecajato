@@ -54,6 +54,12 @@ def gerar_os(request, identificador):
         if not i == len(categorias_manutencao) -1:
             pdf.cell(35, 10, '', 0, 0)
 
+    for servico_adicional in servico.servicos_adicionais.all():
+        pdf.cell(35, 10, 'Serviço adicional:', 1, 0, 'L', 1)
+        pdf.cell(0, 10, f'- {servico_adicional.titulo}', 1, 1, 'L', 1)
+
+    pdf.cell(35, 10, 'Preco Total', 1, 0, 'L', 1)
+    pdf.cell(0, 10, f'R$ {servico.preco_total()}', 1, 1, 'L', 1)
     pdf.cell(35, 10, 'Data de início:', 1, 0, 'L', 1)
     pdf.cell(0, 10, f'{servico.data_inicio}', 1, 1, 'L', 1)
     pdf.cell(35, 10, 'Data de entrega:', 1, 0, 'L', 1)

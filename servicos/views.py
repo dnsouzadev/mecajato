@@ -31,7 +31,7 @@ def listar_servico(request):
 
 def servico(request, identificador):
     servico = get_object_or_404(Servico, identificador=identificador)
-    return render(request, 'servico.html', {'servico': servico, 'servicos_adicionais': ServicoAdicional.objects.all()})
+    return render(request, 'servico.html', {'servico': servico, 'servicos_adicionais': ServicoAdicional.objects.filter(servico=servico)})
 
 
 def gerar_os(request, identificador):

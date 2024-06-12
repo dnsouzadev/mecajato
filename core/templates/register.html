@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+{% block 'title' %}Registro{% endblock %}
+
+{% block 'head' %}
+    <link rel="stylesheet" href="{% static 'clientes/css/clientes.css' %}">
+{% endblock %}
+
+{% block 'dashboard' %}
+
+    <br>
+    <br>
+    <h1 class="text-center">Registro</h1>
+
+    <div class="container">
+        <a href="{% url 'login' %}"><button class="btn btn-info">Login</button></a>
+        <hr>
+        <form method="POST">
+        {% csrf_token %}
+        {{ form | crispy }}
+        <div class="text-center">
+            <button type="submit" class="btn btn-success">Cadastro</button>
+        </div>
+        <br>
+
+        </form>
+    </div>
+
+{% endblock %}

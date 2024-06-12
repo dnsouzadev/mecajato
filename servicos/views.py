@@ -8,8 +8,10 @@ from fpdf import FPDF
 from servicos.models import Servico, ServicoAdicional
 from .forms import FormServico
 from django.contrib import messages
+from django.contrib.auth.decorators import login_required
 
 # Create your views here.
+@login_required
 def novo_servico(request):
     if request.method == 'GET':
         form = FormServico()
@@ -25,18 +27,18 @@ def novo_servico(request):
     else:
         return render(request, "novo_servico.html", {"form": FormServico()})
 
-
+@login_required
 def listar_servico(request):
     if request.method == 'GET':
         servico = Servico.objects.all()
         return render(request, "listar_servico.html", {"servicos": servico})
 
-
+@login_required
 def servico(request, identificador):
     servico = get_object_or_404(Servico, identificador=identificador)
     return render(request, 'servico.html', {'servico': servico, 'servicos_adicionais': ServicoAdicional.objects.filter(servico=servico)})
 
-
+@login_required
 def gerar_os(request, identificador):
     servico = get_object_or_404(Servico, identificador=identificador)
 
@@ -75,6 +77,7 @@ def gerar_os(request, identificador):
 
     return FileResponse(pdf_bytes, as_attachment=True, filename=f"os-{servico.protocolo}.pdf")
 
+@login_required
 def servico_adicional(request):
     identificador_servico = request.POST.get('identificador_servico')
     titulo = request.POST.get('titulo')
@@ -93,7 +96,7 @@ def servico_adicional(request):
 
     return HttpResponseRedirect(reverse('servico', args=[identificador_servico]))
 
-
+@login_required
 def apagar_servico_adicional(request, id):
     try:
         s = ServicoAdicional.objects.get(id=id)
@@ -102,7 +105,7 @@ def apagar_servico_adicional(request, id):
     except ServicoAdicional.DoesNotExist:
         return JsonResponse({'status': 'error', 'message': 'Serviço adicional não encontrado.'}, status=404)
 
-
+@login_required
 def realizar_servico(request, identificador):
     servico = get_object_or_404(Servico, identificador=identificador)
     print(servico.finalizado)

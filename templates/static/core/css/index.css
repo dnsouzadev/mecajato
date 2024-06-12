@@ -1,0 +1,21 @@
+.card {
+    margin: 20px;
+    border-radius: 5px;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+}
+.card-header {
+    background-color: #ac4147;
+    color: white;
+    border-radius: 5px 5px 0 0;
+}
+.card-body {
+    color: #411f2d;
+    padding: 20px;
+}
+.card h2 {
+    margin: 0;
+    font-size: 2.5rem;
+}
+.container {
+    max-width: 1200px;
+}

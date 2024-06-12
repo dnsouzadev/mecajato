@@ -4,6 +4,7 @@
 {% block 'head' %}
     <link rel="stylesheet" href="{% static 'clientes/css/clientes.css' %}">
     <link rel="stylesheet" href="{% static 'servicos/css/listar_servico.css' %}">
+    <link rel="stylesheet" href="{% static 'core/css/index.css' %}">
 {% endblock %}
 
 
@@ -11,7 +12,75 @@
     <br>
     <br>
     <div class="container">
-        <h1 class="text-center">Pagina Inicial</h1>
-    </div>
+        <div class="row mt-5">
+            <div class="col-12 text-center">
+                <h1>Painel de Controle</h1>
+            </div>
+        </div>
+        <div class="row mt-4">
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-header">
+                        Total de Clientes
+                    </div>
+                    <div class="card-body text-center">
+                        <h2>{{ clientes_count }}</h2>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-header">
+                        Total de Carros
+                    </div>
+                    <div class="card-body text-center">
+                        <h2>{{ carros_count }}</h2>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-header">
+                    Total de Serviços
+                    </div>
+                    <div class="card-body text-center">
+                        <h2>{{ servicos_count }}</h2>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-header">
+                        Media de Preco de Servico
+                    </div>
+                    <div class="card-body text-center">
+                        <h2>R$ {{ media_preco_servico }}</h2>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-header">
+                    Servicos Realizados
+                    </div>
+                    <div class="card-body text-center">
+                        <h2>{{ servicos_feitos }}</h2>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-header">
+                    Servicos Pendentes
+                    </div>
+                    <div class="card-body text-center">
+                        <h2>{{ servicos_pendentes }}</h2>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
 
 {% endblock %}

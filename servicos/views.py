@@ -98,3 +98,15 @@ def apagar_servico_adicional(request, id):
         return JsonResponse({'status': 'success', 'message': 'Serviço adicional apagado com sucesso.'})
     except ServicoAdicional.DoesNotExist:
         return JsonResponse({'status': 'error', 'message': 'Serviço adicional não encontrado.'}, status=404)
+
+
+def realizar_servico(request, identificador):
+    servico = get_object_or_404(Servico, identificador=identificador)
+    print(servico.finalizado)
+    if servico.finalizado:
+        servico.finalizado = False
+    else:
+        servico.finalizado = True
+    servico.save()
+
+    return JsonResponse({'status': 'success', 'message': 'Serviço atualizado com sucesso.'})

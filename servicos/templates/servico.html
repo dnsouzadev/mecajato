@@ -4,6 +4,8 @@
 {% block 'head' %}
     <link rel="stylesheet" href="{% static 'clientes/css/clientes.css' %}">
     <link rel="stylesheet" href="{% static 'servicos/css/listar_servico.css' %}">
+    <script src="{% static 'servicos/js/servico.js' %}"></script>
+    <script src="{% static 'servicos/js/servico2.js' %}"></script>
 {% endblock %}
 
 
@@ -24,6 +26,14 @@
         <h5>Status: {% if servico.finalizado %}<span class="badge badge-success">Finalizado</span>{% else %}<span class="badge badge-warning">Em andamento</span>{% endif %}</h5>
         <h5>Data de Inicio: {{ servico.data_inicio }}</h5>
         <h5>Data de Entrega: {{ servico.data_entrega }}</h5>
+        <hr>
+        <br>
+        <h4>Alterar Status do Servico: </h4>
+        <select class="form-control" id="status" onchange="alterarStatus('{{ servico.identificador }}')">
+            <option value="0" {% if not servico.finalizado %}selected{% endif %}>Em andamento</option>
+            <option value="1" {% if servico.finalizado %}selected{% endif %}>Finalizado</option>
+        </select>
+        <br>
         <br>
         <h3>Serviços adicionais</h3>
         <table class="table table-dark">
@@ -46,6 +56,8 @@
                 {% endfor %}
             </tbody>
           </table>
+
+
 
 
     </div>
@@ -85,6 +97,6 @@
             </div>
         </div>
     </div>
-    <script src="{% static 'servicos/js/servico.js' %}"></script>
+
 
 {% endblock %}

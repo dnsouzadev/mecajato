@@ -12,13 +12,17 @@
     <br>
     <br>
     <h1 class="text-center">Novo Serviço</h1>
+
     <div class="container">
+        <a href="{% url 'listar_servico'%}"><button class="btn btn-danger">Cancelar</button></a>
+        <hr>
         <form action="{% url 'novo_servico' %}", method="POST">
         {% csrf_token %}
         {{ form | crispy }}
         <div class="text-center">
             <button type="submit" class="btn btn-success">Salvar</button>
         </div>
+        </form>
     </div>
 
 {% endblock %}

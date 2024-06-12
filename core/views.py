@@ -5,6 +5,7 @@ from clientes.models import Carro, Cliente
 from servicos.models import Servico
 from . import forms
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.models import User
 
 # Create your views here.
 @login_required
@@ -37,14 +38,18 @@ def home(request):
     return render(request, 'index.html', context)
 
 def registro(request):
-    form = UserCreationForm(request.POST)
-    if form.is_valid():
-        form.save()
-        username = form.cleaned_data.get('username')
-        password = form.cleaned_data.get('password')
-        user = authenticate(username=username, password=password)
-        login(request, user)
-        return redirect('home')
+    form = forms.RegisterForm(request.POST)
+    if request.method == 'POST':
+        if form.is_valid():
+            username = form.cleaned_data.get('username')
+            password = form.cleaned_data.get('password')
+            first_name = form.cleaned_data.get('first_name')
+            last_name = form.cleaned_data.get('last_name')
+            email = form.cleaned_data.get('email')
+            User.objects.create_user(username=username, first_name=first_name, last_name=last_name, email=email, password=password)
+            user = authenticate(username=username, password=password)
+            login(request, user)
+            return redirect('home')
     return render(request, 'register.html', {'form': form})
 
 

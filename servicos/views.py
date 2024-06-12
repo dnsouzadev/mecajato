@@ -1,11 +1,13 @@
 from io import BytesIO
 import re
+import time
 from django.http import FileResponse, HttpResponse, HttpResponseRedirect, JsonResponse
 from django.shortcuts import get_object_or_404, render
 from django.urls import reverse
 from fpdf import FPDF
 from servicos.models import Servico, ServicoAdicional
 from .forms import FormServico
+from django.contrib import messages
 
 # Create your views here.
 def novo_servico(request):
@@ -16,7 +18,8 @@ def novo_servico(request):
         form = FormServico(request.POST)
         if form.is_valid():
             form.save()
-            return JsonResponse({"status": "ok"})
+            messages.success(request, 'Servico cadastrado com sucesso.')
+            return HttpResponseRedirect(reverse('listar_servico'))
         else:
             return render(request, "novo_servico.html", {"form": form})
     else:

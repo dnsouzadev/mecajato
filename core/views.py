@@ -27,7 +27,7 @@ def home(request):
         'servicos_count': servicos_count,
         'clientes_count': clientes_count,
         'carros_count': carros_count,
-        'media_preco_servico': media_preco_servico
+        'media_preco_servico': f'{media_preco_servico:.2f}'
     }
 
     return render(request, 'index.html', context)

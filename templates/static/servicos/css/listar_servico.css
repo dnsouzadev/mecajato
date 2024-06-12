@@ -2,3 +2,16 @@
     padding-left: 100px;
     padding-right: 100px;
 }
+.js-temporary-message {
+    /* Adicione estilos de transição ou animação, se desejar */
+}
+
+/* Opcional: Estilos de animação para a mensagem desaparecer gradualmente */
+.js-temporary-message {
+    opacity: 1;
+    transition: opacity 1s ease-in-out;
+}
+
+.js-temporary-message.remove {
+    opacity: 0;
+}

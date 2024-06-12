@@ -10,3 +10,5 @@ function alterarStatus(id) {
         location.reload()
     })
 }
+
+

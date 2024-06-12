@@ -29,6 +29,7 @@ INSTALLED_APPS = [
     #APPS
     'clientes',
     'servicos',
+    'core',
     #TERCEIROS
     'crispy_forms',
     'crispy_bootstrap4',
